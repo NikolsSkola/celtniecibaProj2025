@@ -15,8 +15,8 @@ def setup_database():
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS Images (
                         idImage INTEGER PRIMARY KEY AUTOINCREMENT,
-                        blobImage,
-                        password TEXT NOT NULL)''')
+                        blobImage BLOB,
+                        nameImage TEXT)''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS Savieno (
                         idSavieno INTEGER PRIMARY KEY AUTOINCREMENT,
