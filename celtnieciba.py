@@ -141,3 +141,52 @@ setup_database()
 
 # Start the login window
 create_login_window()
+
+def submit_rating():
+    selected = rating_var.get()
+    if selected == 0:
+        messagebox.showwarning("No Rating", "Please select a rating before submitting.")
+    else:
+        messagebox.showinfo("Thank You", f"Thanks for rating us {selected}/10!")
+        root.destroy()
+
+# Create the main window
+root = tk.Tk()
+root.title("Rate Our Website")
+root.geometry("500x200")
+root.configure(bg="#f0f4f8")
+root.resizable(False, False)
+
+# Title label
+label = tk.Label(root, text="How do you like our website?", font=("Helvetica", 14, "bold"), bg="#f0f4f8")
+label.pack(pady=15)
+
+# Frame for horizontal rating buttons
+rating_frame = tk.Frame(root, bg="#f0f4f8")
+rating_frame.pack()
+
+rating_var = tk.IntVar(value=0)
+
+# Create 1-10 radio buttons horizontally
+for i in range(1, 11):
+    rb = tk.Radiobutton(
+        rating_frame,
+        text=str(i),
+        variable=rating_var,
+        value=i,
+        font=("Helvetica", 11),
+        indicatoron=0,  # Use button-style appearance
+        width=3,
+        bg="#ffffff",
+        activebackground="#cce5ff",
+        relief="raised",
+        bd=2
+    )
+    rb.grid(row=0, column=i-1, padx=3, pady=5)
+
+# Submit button
+submit_btn = tk.Button(root, text="Submit", font=("Helvetica", 12), bg="#4CAF50", fg="white", command=submit_rating)
+submit_btn.pack(pady=15)
+
+# Run the application
+root.mainloop()
