@@ -8,10 +8,20 @@ def setup_database():
     cursor = conn.cursor()
     
     # Create the users table if it doesn't exist
-    cursor.execute('''CREATE TABLE IF NOT EXISTS users (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Users (
+                        idUser INTEGER PRIMARY KEY AUTOINCREMENT,
                         username TEXT NOT NULL,
                         password TEXT NOT NULL)''')
+
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Images (
+                        idImage INTEGER PRIMARY KEY AUTOINCREMENT,
+                        blobImage,
+                        password TEXT NOT NULL)''')
+
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Savieno (
+                        idSavieno INTEGER PRIMARY KEY AUTOINCREMENT,
+                        idUser INTEGER,
+                        idImage INTEGER)''')
     
     conn.close()
 
@@ -25,7 +35,7 @@ def check_login():
     cursor = conn.cursor()
     
     # Check if the user exists in the database
-    cursor.execute("SELECT * FROM users WHERE username = ? AND password = ?", (user, pwd))
+    cursor.execute("SELECT * FROM Users WHERE username = ? AND password = ?", (user, pwd))
     result = cursor.fetchone()
     
     if result:
@@ -45,12 +55,12 @@ def register_user():
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
     
-    cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+    cursor.execute("SELECT * FROM Users WHERE username = ?", (username,))
     if cursor.fetchone():
         messagebox.showerror("Registration Failed", "Username already exists!")
     else:
         # Insert the new user into the database
-        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+        cursor.execute("INSERT INTO Users (username, password) VALUES (?, ?)", (username, password))
         conn.commit()
         messagebox.showinfo("Registration Successful", "Account created successfully!")
         reg_window.destroy()
