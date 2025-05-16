@@ -113,7 +113,7 @@ def create_login_window():
 
     # Load background
     try:
-        bg_image = Image.open("remonts.jpg").resize((500, 500), Image.LANCZOS)
+        bg_image = Image.open("remonts_login.jpg").resize((500, 500), Image.LANCZOS)
         bg_photo = ImageTk.PhotoImage(bg_image)
         bg_label = tk.Label(login_window, image=bg_photo)
         bg_label.image = bg_photo  # keep reference
