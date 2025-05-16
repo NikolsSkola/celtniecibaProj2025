@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from PIL import Image, ImageTk
 import sqlite3
 
 # Create and setup SQLite database
@@ -44,6 +45,9 @@ def check_login():
     else:
         messagebox.showerror("Login Failed", "Invalid username or password")
 
+    conn.close()
+
+# ---------- Registration Functions ----------
 def register_user():
     username = reg_username_entry.get()
     password = reg_password_entry.get()
@@ -58,7 +62,7 @@ def register_user():
         # Insert the new user into the database
         cursor.execute("INSERT INTO Users (username, password) VALUES (?, ?)", (username, password))
         conn.commit()
-        messagebox.showinfo("Registration Successful", "Account created successfully!")
+        messagebox.showinfo("Success", "Registration successful!")
         reg_window.destroy()
     conn.close()
 
@@ -205,42 +209,91 @@ class RoomPlannerApp:
 
 def open_room_edit():
     root = tk.Tk()
-    root.title("Room Planner")
-    root.configure(background="#dbe9f4")
-    root.geometry("1000x800")
+    root.title("Main Window")
+    root.configure(background="#f0f0f0")
+    root.geometry("400x300")
+    
+    # Center window
     root.update_idletasks()
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-    x = (screen_width // 2) - (1000 // 2)
-    y = (screen_height // 2) - (800 // 2)
-    root.geometry(f"1000x800+{x}+{y}")
-    app = RoomPlannerApp(root)
+    x = (root.winfo_screenwidth() - 400) // 2
+    y = (root.winfo_screenheight() - 300) // 2
+    root.geometry(f"400x300+{x}+{y}")
+
+    tk.Label(root, text="Welcome!", font=("Arial", 18), bg="#f0f0f0").pack(pady=30)
+    tk.Label(root, text="You have successfully logged in.", bg="#f0f0f0").pack()
+
+    tk.Button(root, text="Exit", command=root.quit, bg="#d9534f", fg="white", width=10).pack(pady=30)
+
     root.mainloop()
 
+# ---------- Registration Window ----------
+def create_registration_window():
+    global reg_username_entry, reg_password_entry, reg_window
+    reg_window = tk.Toplevel()
+    reg_window.title("Register")
+    reg_window.geometry("350x250")
+    
+    x = (reg_window.winfo_screenwidth() - 350) // 2
+    y = (reg_window.winfo_screenheight() - 250) // 2
+    reg_window.geometry(f"350x250+{x}+{y}")
+    reg_window.configure(bg="white")
+
+    tk.Label(reg_window, text="Register New Account", font=("Arial", 14, "bold"), bg="white").pack(pady=10)
+
+    tk.Label(reg_window, text="Username:", bg="white").pack()
+    reg_username_entry = tk.Entry(reg_window)
+    reg_username_entry.pack()
+
+    tk.Label(reg_window, text="Password:", bg="white").pack(pady=(10, 0))
+    reg_password_entry = tk.Entry(reg_window, show="*")
+    reg_password_entry.pack()
+
+    tk.Button(reg_window, text="Register", command=register_user, bg="#0275d8", fg="white", width=15).pack(pady=20)
+
+# ---------- Login Window ----------
 def create_login_window():
     global username_entry, password_entry, login_window
+
     login_window = tk.Tk()
     login_window.title("Login")
     login_window.geometry("500x500")
-    login_window.update_idletasks()
-    screen_width = login_window.winfo_screenwidth()
-    screen_height = login_window.winfo_screenheight()
-    x = (screen_width // 2) - (500 // 2)
-    y = (screen_height // 2) - (500 // 2)
+    login_window.resizable(False, False)
+
+    # Center window
+    x = (login_window.winfo_screenwidth() - 500) // 2
+    y = (login_window.winfo_screenheight() - 500) // 2
     login_window.geometry(f"500x500+{x}+{y}")
 
-    tk.Label(login_window, text="Username").pack(pady=(10, 0))
-    username_entry = tk.Entry(login_window)
-    username_entry.pack()
+    # Load background
+    try:
+        bg_image = Image.open("remonts_login.jpg").resize((500, 500), Image.LANCZOS)
+        bg_photo = ImageTk.PhotoImage(bg_image)
+        bg_label = tk.Label(login_window, image=bg_photo)
+        bg_label.image = bg_photo  # keep reference
+        bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+    except Exception as e:
+        print("Background image error:", e)
 
-    tk.Label(login_window, text="Password").pack(pady=(10, 0))
-    password_entry = tk.Entry(login_window, show="*")
-    password_entry.pack()
+    # Overlay Frame
+    frame = tk.Frame(login_window, bg="white", bd=2, relief="ridge")
+    frame.place(relx=0.5, rely=0.5, anchor="center", width=300, height=250)
 
-    tk.Button(login_window, text="Login", command=check_login).pack(pady=20)
-    tk.Button(login_window, text="Register", command=create_registration_window).pack(pady=10)
+    tk.Label(frame, text="Login", font=("Arial", 16, "bold"), bg="white").pack(pady=10)
+
+    tk.Label(frame, text="Username:", bg="white").pack(anchor="w", padx=20)
+    username_entry = tk.Entry(frame)
+    username_entry.pack(padx=20)
+
+    tk.Label(frame, text="Password:", bg="white").pack(anchor="w", padx=20, pady=(10, 0))
+    password_entry = tk.Entry(frame, show="*")
+    password_entry.pack(padx=20)
+
+    tk.Button(frame, text="Login", command=check_login, bg="#5cb85c", fg="white", width=20).pack(pady=(20, 5))
+    tk.Button(frame, text="Register", command=create_registration_window, width=20).pack()
 
     login_window.mainloop()
 
-setup_database()
-create_login_window()
+# ---------- Start App ----------
+if __name__ == "__main__":
+    setup_database()
+    create_login_window()
