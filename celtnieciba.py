@@ -66,28 +66,6 @@ def register_user():
         reg_window.destroy()
     conn.close()
 
-def create_registration_window():
-    global reg_username_entry, reg_password_entry, reg_window
-    reg_window = tk.Toplevel()
-    reg_window.title("Register")
-    reg_window.geometry("400x300")
-    reg_window.update_idletasks()
-    screen_width = reg_window.winfo_screenwidth()
-    screen_height = reg_window.winfo_screenheight()
-    x = (screen_width // 2) - (400 // 2)
-    y = (screen_height // 2) - (300 // 2)
-    reg_window.geometry(f"400x300+{x}+{y}")
-
-    tk.Label(reg_window, text="Username").pack(pady=(10, 0))
-    reg_username_entry = tk.Entry(reg_window)
-    reg_username_entry.pack()
-
-    tk.Label(reg_window, text="Password").pack(pady=(10, 0))
-    reg_password_entry = tk.Entry(reg_window, show="*")
-    reg_password_entry.pack()
-
-    tk.Button(reg_window, text="Register", command=register_user).pack(pady=20)
-
 class RoomPlannerApp:
     def __init__(self, root):
         self.root = root
@@ -209,24 +187,32 @@ class RoomPlannerApp:
 
 def open_room_edit():
     root = tk.Tk()
-    root.title("Main Window")
-    root.configure(background="#f0f0f0")
-    root.geometry("400x300")
-    
-    # Center window
+    root.title("Tk Example")
+    root.configure(background="lightgray")
+    root.minsize(200, 200)
+    root.maxsize(1920, 1080)
+    root.geometry("300x300")  # Set initial size
+
+    # Center the window on the screen
+    root.title("Room Planner")
+    root.configure(background="#dbe9f4")
+    root.geometry("1000x800")
     root.update_idletasks()
-    x = (root.winfo_screenwidth() - 400) // 2
-    y = (root.winfo_screenheight() - 300) // 2
-    root.geometry(f"400x300+{x}+{y}")
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width // 2) - (300 // 2)
+    y = (screen_height // 2) - (300 // 2)
+    root.geometry(f"300x300+{x}+{y}")
 
-    tk.Label(root, text="Welcome!", font=("Arial", 18), bg="#f0f0f0").pack(pady=30)
-    tk.Label(root, text="You have successfully logged in.", bg="#f0f0f0").pack()
-
-    tk.Button(root, text="Exit", command=root.quit, bg="#d9534f", fg="white", width=10).pack(pady=30)
-
+    # Sample content for the logged-in user
+    tk.Label(root, text="Welcome to the main window!").pack(pady=20)
+    x = (screen_width // 2) - (1000 // 2)
+    y = (screen_height // 2) - (800 // 2)
+    root.geometry(f"1000x800+{x}+{y}")
+    app = RoomPlannerApp(root)
     root.mainloop()
 
-# ---------- Registration Window ----------
+
 def create_registration_window():
     global reg_username_entry, reg_password_entry, reg_window
     reg_window = tk.Toplevel()
@@ -293,7 +279,6 @@ def create_login_window():
 
     login_window.mainloop()
 
-# ---------- Start App ----------
 if __name__ == "__main__":
     setup_database()
     create_login_window()
