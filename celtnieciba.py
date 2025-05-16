@@ -9,7 +9,7 @@ def setup_database():
     cursor = conn.cursor()
 
     # Create the users table if it doesn't exist
-    cursor.execute('''CREATE TABLE IF NOT EXISTS users (
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Users (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         username TEXT NOT NULL,
                         password TEXT NOT NULL)''')
@@ -232,4 +232,5 @@ def show_review():
 
     submit_btn = tk.Button(review_window, text="Submit", command=submit_rating)
     submit_btn.pack(pady=15)
+
     review_window.mainloop()
