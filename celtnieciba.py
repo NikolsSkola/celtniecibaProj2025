@@ -230,6 +230,6 @@ def show_review():
             messagebox.showinfo("Thank You", f"Thanks for rating us {selected}/10!")
             review_window.destroy()
 
-submit_btn = tk.Button(review_window, text="Submit", command=submit_rating)
-submit_btn.pack(pady=15)
-review_window.mainloop()
+    submit_btn = tk.Button(review_window, text="Submit", command=submit_rating)
+    submit_btn.pack(pady=15)
+    review_window.mainloop()
