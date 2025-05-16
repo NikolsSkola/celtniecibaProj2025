@@ -41,7 +41,7 @@ def check_login():
 
     if result:
         login_window.destroy()
-        open_room_edit()
+        open_main_window()
     else:
         messagebox.showerror("Login Failed", "Invalid username or password")
 
@@ -300,6 +300,28 @@ def open_room_edit():
     app = RoomPlannerApp(root)
     root.mainloop()
 
+def open_main_window():
+    root = tk.Tk()
+    root.title("Tk Example")
+    root.configure(background="lightgray")
+    root.minsize(200, 200)
+    root.maxsize(1920, 1080)
+    root.geometry("300x300")  # Set initial size
+    # Center the window on the screen
+    root.update_idletasks()
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width // 2) - (300 // 2)
+    y = (screen_height // 2) - (300 // 2)
+    root.geometry(f"300x300+{x}+{y}")
+
+    # Sample content for the logged-in user
+    tk.Label(root, text="Welcome to the main window!").pack(pady=20)
+
+
+    tk.Button(root, text="Open room planner", command=open_room_edit).pack(pady=10)
+
+    root.mainloop()
 
 def create_registration_window():
     global reg_username_entry, reg_password_entry, reg_window
