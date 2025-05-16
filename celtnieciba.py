@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 import sqlite3
+from PIL import Image, ImageTk
 
 # Create and setup SQLite database (only if it doesn't exist)
 def setup_database():
@@ -86,7 +87,25 @@ def open_main_window():
 
     # Sample content for the logged-in user
     tk.Label(root, text="Welcome to the main window!").pack(pady=20)
+
+
+    tk.Button(root, text="nikols logs", command=open_nikola_big_log).pack(pady=10)
+
     root.mainloop()
+
+def open_nikola_big_log():
+    window=tk.Tk()
+    window.title("ZOINKS")
+    # Center the window on the screen
+    window.update_idletasks()
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+    x = (screen_width // 2) - (1000 // 2)
+    y = (screen_height // 2) - (1000 // 2)
+    window.geometry(f"1000x1000+{x}+{y}")
+
+
+
 
 # Create and setup the login window
 def create_login_window():
