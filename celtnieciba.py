@@ -58,6 +58,8 @@ def register_user():
     cursor.execute("SELECT * FROM Users WHERE username = ?", (username,))
     if cursor.fetchone():
         messagebox.showerror("Registration Failed", "Username already exists!")
+    elif username == "":
+        messagebox.showerror("Registration Failed", "Blank username!")
     else:
         # Insert the new user into the database
         cursor.execute("INSERT INTO Users (username, password) VALUES (?, ?)", (username, password))
